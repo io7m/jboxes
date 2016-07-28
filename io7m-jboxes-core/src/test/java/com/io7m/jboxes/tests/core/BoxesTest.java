@@ -1517,6 +1517,31 @@ public final class BoxesTest
   }
 
   @Test
+  public void testContainingAll()
+    throws Exception
+  {
+    final Generator<BoxType<Object>> generator = new BoxGenerator<>();
+    QuickCheck.forAllVerbose(
+      generator,
+      new AbstractCharacteristic<BoxType<Object>>()
+      {
+        @Override
+        protected void doSpecify(final BoxType<Object> a)
+          throws Throwable
+        {
+          final BoxType<Object> b = generator.next();
+          final BoxType<Object> c = Boxes.containing(a, b);
+          Assert.assertTrue(c.width() >= a.width());
+          Assert.assertTrue(c.height() >= a.height());
+          Assert.assertTrue(c.width() >= b.width());
+          Assert.assertTrue(c.height() >= b.height());
+          Assert.assertTrue(Boxes.contains(c, a));
+          Assert.assertTrue(Boxes.contains(c, b));
+        }
+      });
+  }
+
+  @Test
   public void testContainsZeroWidth()
     throws Exception
   {
