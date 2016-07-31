@@ -1032,6 +1032,32 @@ public final class Boxes
   }
 
   /**
+   * Construct a box that will contain both {@code a} and {@code b}.
+   *
+   * @param a   A box
+   * @param b   A box
+   * @param <S> The coordinate space of the boxes
+   *
+   * @return A box containing {@code a} and {@code b}
+   *
+   * @since 0.2.0
+   */
+
+  public static <S> BoxType<S> containing(
+    final BoxType<S> a,
+    final BoxType<S> b)
+  {
+    NullCheck.notNull(a);
+    NullCheck.notNull(b);
+
+    return Box.of(
+      Math.min(a.minimumX(), b.minimumX()),
+      Math.max(a.maximumX(), b.maximumX()),
+      Math.min(a.minimumY(), b.minimumY()),
+      Math.max(a.maximumY(), b.maximumY()));
+  }
+
+  /**
    * <p>Determine whether or not a box contains a given point.</p>
    *
    * @param a   A box
